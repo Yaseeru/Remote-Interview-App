@@ -14,25 +14,25 @@ const VideoRoom: React.FC<VideoRoomProps> = ({ name, roomID }) => {
 
         const myMeeting = async (element: HTMLDivElement) => {
             const appID = Number(import.meta.env.VITE_ZEGO_APP_ID);
-            const appSign = import.meta.env.VITE_ZEGO_APP_SIGN;
+            const serverSecret = import.meta.env.VITE_ZEGO_SERVER_SECRET;
 
             console.log("DEBUG: AppID:", appID, typeof appID);
-            console.log("DEBUG: AppSign:", appSign ? appSign.slice(0, 5) + "..." : "undefined", typeof appSign);
+            console.log("DEBUG: ServerSecret:", serverSecret ? serverSecret.slice(0, 5) + "..." : "undefined", typeof serverSecret);
 
             if (!appID || isNaN(appID)) {
                 console.error("CRITICAL: AppID is missing or invalid");
                 alert("AppID is missing or invalid. Check .env file.");
                 return;
             }
-            if (!appSign) {
-                console.error("CRITICAL: AppSign is missing");
-                alert("AppSign is missing. Check .env file.");
+            if (!serverSecret) {
+                console.error("CRITICAL: ServerSecret is missing");
+                alert("ServerSecret is missing. Check .env file.");
                 return;
             }
 
             const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
                 appID,
-                appSign,
+                serverSecret,
                 roomID,
                 Date.now().toString(),
                 name
